@@ -1,0 +1,64 @@
+"use client";
+
+import React from "react";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { ContentLibrary } from "@/lib/contentLibrary";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Globe, ChevronDown } from "lucide-react";
+
+interface ContentLibraryProps {
+  library: ContentLibrary;
+}
+
+export default function ContentLibraryComponent({
+  library,
+}: ContentLibraryProps) {
+  return (
+    <Card className="h-[calc(100vh-8rem)] bg-white shadow-lg">
+      <CardContent className="p-0">
+        <ScrollArea className="h-[calc(100vh-10rem)]">
+          <Accordion type="single" collapsible className="w-full">
+            {Object.entries(library).map(([url, contents], index) => (
+              <AccordionItem
+                value={`item-${index}`}
+                key={index}
+                className="border-b last:border-b-0"
+              >
+                <AccordionTrigger className="text-sm font-medium text-gray-700 hover:bg-gray-50 px-4 py-3">
+                  <div className="flex items-center justify-between w-full">
+                    <div className="flex items-center">
+                      <Globe className="w-4 h-4 mr-2 text-indigo-500" />
+                      {url}
+                    </div>
+                    <ChevronDown className="h-4 w-4 text-gray-500 transition-transform duration-200" />
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="bg-gray-50 px-4 py-2">
+                  <ul className="space-y-4">
+                    {contents.map((content, contentIndex) => (
+                      <li key={contentIndex} className="text-sm text-gray-700">
+                        <Card className="bg-white shadow-sm">
+                          <CardContent className="p-4">
+                            <p className="whitespace-pre-wrap break-words leading-relaxed">
+                              {content}
+                            </p>
+                          </CardContent>
+                        </Card>
+                      </li>
+                    ))}
+                  </ul>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </ScrollArea>
+      </CardContent>
+    </Card>
+  );
+}
