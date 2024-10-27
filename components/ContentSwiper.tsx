@@ -18,6 +18,11 @@ import { addToLibrary, ContentLibrary } from "@/lib/contentLibrary";
 import Image from "next/image";
 import { Article } from "@/lib/types";
 import { marked } from "marked";
+import {
+  HoverCard,
+  HoverCardTrigger,
+  HoverCardContent,
+} from "@/components/ui/hover-card";
 
 const EXAMPLE_ARTICLES: Article[] = [
   {
@@ -59,6 +64,109 @@ During the Grammys, for example, Mastercard joined forces with ride-sharing comp
 Maxwell said the goal of the partnership was to understand and unite the aims of both consumers and partner businesses. She added: “This shows how centring the human in the story helps both the consumer side and the B2B side of the business.”`,
   },
   {
+    title: "Why CEOs keep dunking on their own brands",
+    url: "https://www.fastcompany.com/91206366/why-ceos-keep-dunking-on-their-brands-adidas-nike-red-lobster-starbucks",
+    description:
+      "From Adidas to Red Lobster, CEOs are increasingly criticizing their own companies' products—and it might actually be good for business.",
+    image:
+      "https://www.spellbrand.com/wp-content/uploads/2016/06/brand-identity-system-featured-1.jpg",
+    content: `When Elliott Hill begins his stint as the new chief executive of Nike next week, he might consider stealing a move from longtime rival Adidas—and talk some trash about his own company.
+
+Adidas was saddled with multiple problems (including the messy dissolution of its partnership with Yeezy and resulting inventory overload) when Puma veteran Bjørn Gulden took the reins in early 2023. Many had an unabashedly critical take on the company, most notably Bjørn Gulden himself. “The numbers speak for themselves,” he said in a company press release, not long after taking over the top job. “We are currently not performing the way we should.” Gulden granted that Adidas had “the ingredients to be successful” but suggested they were in disarray. “We need to put the pieces back together again,” he said, “but we need some time.”
+
+He referred to the year ahead as a “reset” period—“a year of transition to set the base to again be a growing and profitable company.”
+It’s that last bit that gives away the real point of dunking on your own brand when in comeback mode: You want to be judged against the worst possible baseline, not the far more impressive performance from back before the problems set in. Partly, this practice—call it self-negging—is a classic under-promise and over-deliver strategy: Get expectations low enough and you look like a rock star for getting the basics right. 
+
+And in a stretch that’s seen plenty of CEO churn, thanks to disappointing performances, new chief executives haven’t been shy about inheriting negatives. Starbucks has “drifted from [its] core,” its new CEO Brian Niccol wrote in an open letter last month. The experience “can feel transactional, menus can feel overwhelming, product is inconsistent, the wait too long or the handoff too hectic.” He announced a “first hundred days” plan to visit U.S. locations and take steps toward a back-to-the-core effort.
+
+Red Lobster, recently emerging from bankruptcy, has closed more than a hundred locations and cycled through multiple CEOs. “There’s a hole to climb out of, for sure,” its new chief executive Damola Adamolekun told CNN earlier this month. The 35-year-old former P.F. Chang CEO has so far announced only “incremental changes” but, not surprisingly, has stressed that the chain’s now infamous endless-shrimp special (since discontinued) made little financial sense and caused “a lot of chaos.”
+
+The strategy doesn’t always work, and can easily come across as simply scapegoating past management or fallout from C-suite knife-fighting (see Bob Iger’s return to the top job at a beleaguered Disney in 2022, for example). But if share price is any indicator, Adidas executed well on buying time to prove it could execute better in running its actual business.
+
+In May, just a few months into Gulden’s tenure, Adidas’s progress was mixed (it still held much more inventory than analysts expected), but setting a low bar was already helping the company’s stock price, which has now risen about 28% since the beginning of the year. For his part, Gulden didn’t exactly raise the bar much at his first earnings call with investors in April, instead saying that arch-rival Nike had done a better job with its product mix.
+
+Whatever Gulden’s motivation was, that sounds generous in retrospect: Nike is the one facing big challenges under a new leader. A pandemic-era move toward more direct sales at the expense of retail partnerships has proved rocky. And rival up-and-comers including Hoka and On have built devoted athlete audiences and resonant brands—aka, traditional Nike strengths. It’s no secret that the company has suffered through “a moribund patch,” as Fast Company reported back in May, marked by flattening sales and layoffs. After news broke in September that Hill would replace CEO John Donahue, the price of Nike shares immediately jumped about 8%, before eventually sliding back down.
+
+Nike has postponed its planned November investor day event, so it’s not clear when we’ll hear from Hill in a substantial way. But, while he appears to be a popular choice, he may be wise to make his opening notes downbeat: underscoring the depth of the challenges rather than promising quick solutions. It may also be wise to do so sooner than the company’s next earnings report in the new year: Setting expectations isn’t just about predicting where you’ll finish, but defining the starting line.
+
+As it turned out, Adidas really did have a pretty lousy 2023, posting its first annual loss in more than three decades. While it seems to have worked through the Yeezy issue, the company still expects North American revenue to decline in 2024. Still, Guldin could say with a straight face that the year “ended better than what I had expected.” Well, of course, it did: After all, he indicated that he expected the worst.
+
+But Guldin wasn’t exactly bragging, calling the results “by far not good enough.” Even so, the Adidas share price is up 90% since he started. Chalk that up to the power of (self-directed) trash talk.`,
+  },
+  {
+    title:
+      "YouTube viewing habits are changing. Where does this leave creators, brands and agencies?",
+    url: "https://www.thedrum.com/news/2024/10/18/youtube-viewing-habits-are-changing-where-does-leave-creators-brands-and-agencies",
+    description:
+      "As the video platform launches an initiative to show the UK government the economic value of creator content, we catch up with its vice-president for EMEA, Pedro Pina, to find out more.",
+    image:
+      "https://images.unsplash.com/photo-1611162616475-46b635cb6868?q=80&w=2874&auto=format&fit=crop",
+    content: `"The device with the highest growth on YouTube is the living room, the big screen," says YouTube vice-president for EMEA, Pedro Pina, who tells The Drum that co-watching is back and even Gen Z is getting involved.
+
+Between 2021 and 2023, the number of YouTube's most watched creators who received the majority of their watch time on TV screens increased by more than 400%, according to the company's latest Why We Watch survey.
+
+YouTube is at a waypoint, investing in new formats such as YouTube shorts, reflecting on evolving viewing habits and also trying to champion the economic value of its creators.
+
+This week, to much fanfare, in a room full of high-energy YouTube creators – some of whom were performing – YouTube announced its Creator Consultation in a bid to show decision-makers the value of the "creator ecosystem," which it estimates contributes £2bn to the UK's annual GDP and supports more than 45,000 jobs in the UK.
+
+With UK prime minister Keir Starmer this week stating a desire to "rip out the bureaucracy that blocks investment," this could be fortuitous timing for YouTube.
+
+It is YouTube's intention to appeal to the government. To this end, Pina wants to deliver "a piece of research that is properly supported by feedback from a broad base of creators" so that it can "hopefully feed into the government's commitment to invest in the creative industries," he says.
+
+The research will be delivered next year and Pina is hopeful that it will be acknowledged. "It's exciting to see a government that defines – as part of its industrial strategy – the creative industries as belonging to it. That's really great news. You don't see that a lot and then that's something we applaud and are enthusiastic about."
+
+Anecdotal evidence already gathered by YouTube hints at creators wanting to see formal education pathways into the industry, access to studio space outside London and film permits being easier to acquire.
+
+Other gatekeepers will also be appealed to when the report is ready, as creators feel shut out from the traditional creative and media landscape, according to YouTube.
+
+"They have barriers they're facing and, like any entrepreneurs, they want those barriers removed," says Pina.
+
+While the mass consultation is UK-focused, further creator consultations will be rolled out globally, according to Pina, who suspects the pain points of UK creators will be "replicated across other countries."
+
+He's keen to highlight the power of the British creative brand as an export. "We've always exported our creative product in this country and continue to launch products and features that help creators do that. We want to use AI to help creators transform their videos into as many languages as possible." Pedro also notes that 85% of YouTube creators watch time takes place from outside the UK.
+
+Despite investing in YouTube shorts "to give users what they want," long-form is in good health, he points out.
+
+"We really see users jumping from format to format, from long to short. They find out about creators they never heard about through shorts and then they go and explore all their long format."`,
+  },
+  {
+    title:
+      "Adept AI Makes Major Pivot After Amazon Hires Away 66% of the Company",
+    url: "https://bizzline.ai/post/adept-ai-makes-major-pivot-after-amazon-hires-away-66-of-the-company",
+    description: `Adept AI recently saw Amazon hire away two-thirds of its core team, including its co-founder and CEO. In response, the company has announced it will pivot entirely "towards solutions that enable agentic AI, powered by existing in-house models, data, and custom infrastructure," according a recent update. What does this mean for the wider AI market? Let's find out.`,
+    image:
+      "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2832&auto=format&fit=crop",
+    content: `## The Fundamentals
+
+**Founded:** 2021
+**Founders:** Ashish Vaswani, David Luan, Kelsey Szot, Niki Parmar
+**Funding:** $415 million (latest: $350 billion Series B) @ $1+ billion
+**HQ:** San Francisco
+**Website:** www.adept.ai
+
+## The Background 
+Adept AI was shot into existence in part by the AI rush of 2021 and in part by the pedigree of its founders. CEO David Luan was VP of engineering at OpenAI. Another two co-founders, Ashish Vaswani and Niki Parmar, are co-authors on the paper that introduced the concept of transformers to the world. 
+
+Within a year of launch, Adept AI raised $65 million in a round led by Greylock and Addition. Just a year after that, in March 2023, the company raised a whopping $350 million in a Series B round General Catalyst and Spark Capital.
+
+The concept behind Adept is simple but startlingly revolutionary: building the technology to put AI at the center of all human-computer interaction. The idea is that a single command gets translated by the AI into a complex set of actions. This is the Great Dream of AI—you tell a computer to do something hard and...it just does it. 
+
+
+## The Trend Line 
+Amazon's hiring of two-thirds of the company is about as cataclysmic of an even a startup can go through, without fully dying. However, Adept CEO Zach Brock, the company's former head of engineering, appears to be thinking on his feet, namely by making some some difficult strategic choices.
+
+Adept has a lot going for it. The company still has a lot of experience in building AI and enough of a war chest to continue innovating. Its pivot means that it will not be competing for "holy grail" research-intensive solutions, general intelligence being the prime example, but will switch to pursuing actionable business strategies, most likely at the enterprise level.
+
+According to a company announcement, "By concentrating on agentic AI solutions, Adept aims to maintain its momentum and drive innovation in the field. The new leadership team is enthusiastic about solving real work problems for a wide range of customers, from small businesses to large corporations."
+
+The move comes only months after Inflection AI was acquired by Microsoft less than two years after its founding. Reid Hoffman, the founder of LinkedIn, a co-founder of Inflection and a member of the Microsoft board, predicted recently that there would be more Inflection-style acquisitions by big tech companies of major AI startups, like Inflection and Adept.
+ 
+## The Bottom Line 
+Overall, while this might appear to be a consolidation of AI by big tech—and very much is—it's a consolidation happening at the base layer of the AI stack. With companies like Adept AI flipping to business oriented approaches, the industry could see a much stronger move to AI applications driven by small and medium-sized companies, while OpenAI, Microsoft, Google and Amazon drive the development of new research and foundational models, an extremely risk-laden and expensive endeavor.
+
+This is both a consolidation of the AI ecosystem but also a maturation. Companies that were able to glide on robust updrafts from the AI gold rush are now buckling down and focusing on using their remarkable tech and talent to solve business problems. That's good for these companies but, just as importantly, it's also good for the health of the industry.`,
+  },
+  {
     title: "Custom URL",
     url: "",
     description: "Enter your own article URL",
@@ -82,6 +190,8 @@ export default function ContentSwiper({
   const [selectedArticle, setSelectedArticle] = useState("custom");
   const [selectedArticleData, setSelectedArticleData] =
     useState<Article | null>(null);
+  const [generatedImage, setGeneratedImage] = useState<string>("");
+  const [imagePrompt, setImagePrompt] = useState<string>("");
 
   const handleArticleSelect = (value: string) => {
     setSelectedArticle(value);
@@ -107,8 +217,15 @@ export default function ContentSwiper({
 
     setIsGenerating(true);
     try {
-      const generatedContent = await generateContent(articleUrl, platform);
-      setContent(generatedContent);
+      const articleContent = selectedArticleData?.content || "";
+      const { text, imagePrompt, imageUrl } = await generateContent(
+        articleUrl,
+        platform,
+        articleContent
+      );
+      setContent(text);
+      setImagePrompt(imagePrompt);
+      setGeneratedImage(imageUrl); // Use the actual generated image URL
     } catch (error) {
       toast("Failed to generate content. Please try again.", {
         style: { background: "red", color: "white" },
@@ -121,7 +238,13 @@ export default function ContentSwiper({
   const handleSwipe = async (liked: boolean) => {
     if (liked) {
       const urlName = new URL(articleUrl).hostname;
-      const updatedLibrary = addToLibrary(contentLibrary, urlName, content);
+      const updatedLibrary = addToLibrary(
+        contentLibrary,
+        urlName,
+        content,
+        platform as "linkedin" | "twitter",
+        generatedImage
+      );
       onSaveContent(updatedLibrary);
       toast("The content has been added to your library.", {
         style: { background: "green", color: "white" },
@@ -215,7 +338,30 @@ export default function ContentSwiper({
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <p className="text-gray-700 leading-relaxed">{content}</p>
+            <div className="flex gap-4">
+              {generatedImage && (
+                <div className="relative w-[200px] h-[200px] rounded-lg overflow-hidden">
+                  <HoverCard>
+                    <HoverCardTrigger>
+                      <Image
+                        src={generatedImage}
+                        alt="Generated content image"
+                        fill
+                        className="object-cover"
+                      />
+                    </HoverCardTrigger>
+                    <HoverCardContent>
+                      <p className="text-sm text-gray-600">
+                        Image Prompt: {imagePrompt}
+                      </p>
+                    </HoverCardContent>
+                  </HoverCard>
+                </div>
+              )}
+              <div className="flex-1">
+                <p className="text-gray-700 leading-relaxed">{content}</p>
+              </div>
+            </div>
             <div className="flex justify-between pt-4">
               <Button
                 onClick={() => handleSwipe(false)}

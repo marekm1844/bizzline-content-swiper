@@ -1,16 +1,18 @@
 "use client";
 
 import React from "react";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { ContentLibrary } from "@/lib/contentLibrary";
+import { ContentLibrary } from "@/lib/types";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Globe, ChevronDown } from "lucide-react";
+import { Globe, ChevronDown, Linkedin, Twitter } from "lucide-react";
+import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
 
 interface ContentLibraryProps {
   library: ContentLibrary;
@@ -19,6 +21,23 @@ interface ContentLibraryProps {
 export default function ContentLibraryComponent({
   library,
 }: ContentLibraryProps) {
+  const getPlatformBadge = (platform: "linkedin" | "twitter") => {
+    if (platform === "linkedin") {
+      return (
+        <Badge variant="secondary" className="flex items-center gap-1">
+          <Linkedin className="w-3 h-3" />
+          LinkedIn
+        </Badge>
+      );
+    }
+    return (
+      <Badge variant="secondary" className="flex items-center gap-1">
+        <Twitter className="w-3 h-3" />
+        Twitter
+      </Badge>
+    );
+  };
+
   return (
     <Card className="h-[calc(100vh-8rem)] bg-white shadow-lg">
       <CardContent className="p-0">
@@ -44,10 +63,28 @@ export default function ContentLibraryComponent({
                     {contents.map((content, contentIndex) => (
                       <li key={contentIndex} className="text-sm text-gray-700">
                         <Card className="bg-white shadow-sm">
-                          <CardContent className="p-4">
-                            <p className="whitespace-pre-wrap break-words leading-relaxed">
-                              {content}
-                            </p>
+                          <CardContent className="p-4 space-y-4">
+                            <div className="flex justify-between items-center">
+                              {getPlatformBadge(content.platform)}
+                              <p className="text-xs text-gray-500">
+                                {new Date(content.timestamp).toLocaleString()}
+                              </p>
+                            </div>
+                            {content.image && (
+                              <div className="relative w-full h-[200px] rounded-lg overflow-hidden">
+                                <Image
+                                  src={content.image}
+                                  alt="Content image"
+                                  fill
+                                  className="object-cover"
+                                />
+                              </div>
+                            )}
+                            <div>
+                              <p className="whitespace-pre-wrap break-words leading-relaxed">
+                                {content.text}
+                              </p>
+                            </div>
                           </CardContent>
                         </Card>
                       </li>
