@@ -12,6 +12,9 @@ const nextConfig = {
       },
     ],
   },
+  experimental: {
+    outputFileTracingRoot: undefined, // Add this if you're having module resolution issues
+  },
 };
 
 module.exports = nextConfig;
