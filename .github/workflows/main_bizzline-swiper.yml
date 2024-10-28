@@ -33,7 +33,7 @@ jobs:
         run: |
           yarn install --frozen-lockfile
           yarn build
-          mv ./build/static ./build/standalone/static
+          cp -R ./build/static ./build/standalone/.next/
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -43,11 +43,6 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    env:
-      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
-      SCRAPER_API_KEY: ${{ secrets.SCRAPER_API_KEY }}
-      SCRAPER_API_URL: ${{ secrets.SCRAPER_API_URL }}
     needs: build
     environment:
       name: "Production"
@@ -73,6 +68,5 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          clean: true
           slot-name: "Production"
           package: .
