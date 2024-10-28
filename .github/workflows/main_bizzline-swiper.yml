@@ -33,17 +33,13 @@ jobs:
         run: |
           yarn install --frozen-lockfile
           yarn build
-
-      - name: Zip all files for upload between jobs
-        # IMPORTANT: .next is a hidden folder and will NOT be included in the zip unless we specify it
-        # To fix: /home/site/wwwroot/node_modules/.bin/next: 1: ../next/dist/bin/next: not found
-        run: zip next.zip ./* .next  -qr
+          mv ./build/static ./build/standalone/static
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: app
-          path: next.zip
+          path: ./build/standalone/
 
   deploy:
     runs-on: ubuntu-latest
@@ -78,4 +74,4 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           slot-name: "Production"
-          package: next.zip
+          package: .
