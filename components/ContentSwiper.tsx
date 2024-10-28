@@ -192,6 +192,7 @@ export default function ContentSwiper({
     useState<Article | null>(null);
   const [generatedImage, setGeneratedImage] = useState<string>("");
   const [imagePrompt, setImagePrompt] = useState<string>("");
+  const [isArticleFetched, setIsArticleFetched] = useState(false);
 
   const handleArticleSelect = (value: string) => {
     setSelectedArticle(value);
@@ -200,10 +201,12 @@ export default function ContentSwiper({
       if (article) {
         setArticleUrl(article.url);
         setSelectedArticleData(article);
+        setIsArticleFetched(true); // Set to true for example articles
       }
     } else {
       setArticleUrl("");
       setSelectedArticleData(null);
+      setIsArticleFetched(false); // Reset when switching to custom
     }
   };
 
@@ -262,6 +265,37 @@ export default function ContentSwiper({
     }
   };
 
+  // Add this function inside ContentSwiper component
+  const handleCustomUrlSelect = async (url: string) => {
+    setIsGenerating(true);
+    setIsArticleFetched(false); // Reset when starting new fetch
+    try {
+      const response = await fetch("/api/scrape", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ url }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to scrape article");
+      }
+
+      const article: Article = await response.json();
+      setSelectedArticleData(article);
+      setArticleUrl(article.url);
+      setIsArticleFetched(true); // Set to true after successful fetch
+    } catch (error) {
+      toast("Failed to fetch article content. Please try again.", {
+        style: { background: "red", color: "white" },
+      });
+      setIsArticleFetched(false);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <Card>
@@ -297,6 +331,18 @@ export default function ContentSwiper({
                 onChange={(e) => setArticleUrl(e.target.value)}
                 className="flex-grow"
               />
+              <Button
+                onClick={() => handleCustomUrlSelect(articleUrl)}
+                disabled={isGenerating || !articleUrl}
+                size="sm"
+                className="ml-2"
+              >
+                {isGenerating ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  "Fetch Article"
+                )}
+              </Button>
             </div>
           )}
 
@@ -312,7 +358,10 @@ export default function ContentSwiper({
 
           <Button
             onClick={handleGenerate}
-            disabled={isGenerating}
+            disabled={
+              isGenerating ||
+              (selectedArticle === "custom" && !isArticleFetched)
+            }
             className="w-full bg-indigo-600 hover:bg-indigo-700 text-white"
           >
             {isGenerating ? (

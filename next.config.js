@@ -7,15 +7,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**.blob.core.windows.net",
-      },
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-      },
-      {
-        protocol: "https",
-        hostname: "www.spellbrand.com",
+        hostname: "**",
       },
     ],
   },
