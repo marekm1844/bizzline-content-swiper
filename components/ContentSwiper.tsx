@@ -74,12 +74,12 @@ Maxwell said the goal of the partnership was to understand and unite the aims of
 
 Adidas was saddled with multiple problems (including the messy dissolution of its partnership with Yeezy and resulting inventory overload) when Puma veteran Bjørn Gulden took the reins in early 2023. Many had an unabashedly critical take on the company, most notably Bjørn Gulden himself. “The numbers speak for themselves,” he said in a company press release, not long after taking over the top job. “We are currently not performing the way we should.” Gulden granted that Adidas had “the ingredients to be successful” but suggested they were in disarray. “We need to put the pieces back together again,” he said, “but we need some time.”
 
-He referred to the year ahead as a “reset” period—“a year of transition to set the base to again be a growing and profitable company.”
+He referred to the year ahead as a “reset” period—a year of transition to set the base to again be a growing and profitable company.”
 It’s that last bit that gives away the real point of dunking on your own brand when in comeback mode: You want to be judged against the worst possible baseline, not the far more impressive performance from back before the problems set in. Partly, this practice—call it self-negging—is a classic under-promise and over-deliver strategy: Get expectations low enough and you look like a rock star for getting the basics right. 
 
 And in a stretch that’s seen plenty of CEO churn, thanks to disappointing performances, new chief executives haven’t been shy about inheriting negatives. Starbucks has “drifted from [its] core,” its new CEO Brian Niccol wrote in an open letter last month. The experience “can feel transactional, menus can feel overwhelming, product is inconsistent, the wait too long or the handoff too hectic.” He announced a “first hundred days” plan to visit U.S. locations and take steps toward a back-to-the-core effort.
 
-Red Lobster, recently emerging from bankruptcy, has closed more than a hundred locations and cycled through multiple CEOs. “There’s a hole to climb out of, for sure,” its new chief executive Damola Adamolekun told CNN earlier this month. The 35-year-old former P.F. Chang CEO has so far announced only “incremental changes” but, not surprisingly, has stressed that the chain’s now infamous endless-shrimp special (since discontinued) made little financial sense and caused “a lot of chaos.”
+Red Lobster, recently emerging from bankruptcy, has closed more than a hundred locations and cycled through multiple CEOs. “There’s a hole to climb out of, for sure,” its new chief executive Damola Adamolekun told CNN earlier this month. The 35-year-old former P.F. Chang CEO has so far announced only incremental changes” but, not surprisingly, has stressed that the chain’s now infamous endless-shrimp special (since discontinued) made little financial sense and caused “a lot of chaos.”
 
 The strategy doesn’t always work, and can easily come across as simply scapegoating past management or fallout from C-suite knife-fighting (see Bob Iger’s return to the top job at a beleaguered Disney in 2022, for example). But if share price is any indicator, Adidas executed well on buying time to prove it could execute better in running its actual business.
 
@@ -193,20 +193,23 @@ export default function ContentSwiper({
   const [generatedImage, setGeneratedImage] = useState<string>("");
   const [imagePrompt, setImagePrompt] = useState<string>("");
   const [isArticleFetched, setIsArticleFetched] = useState(false);
+  const [generatedTitle, setGeneratedTitle] = useState<string>("");
+  const [showGeneratedContent, setShowGeneratedContent] = useState(false);
 
   const handleArticleSelect = (value: string) => {
     setSelectedArticle(value);
+    setShowGeneratedContent(false);
     if (value !== "custom") {
       const article = EXAMPLE_ARTICLES.find((a) => a.url === value);
       if (article) {
         setArticleUrl(article.url);
         setSelectedArticleData(article);
-        setIsArticleFetched(true); // Set to true for example articles
+        setIsArticleFetched(true);
       }
     } else {
       setArticleUrl("");
       setSelectedArticleData(null);
-      setIsArticleFetched(false); // Reset when switching to custom
+      setIsArticleFetched(false);
     }
   };
 
@@ -221,14 +224,16 @@ export default function ContentSwiper({
     setIsGenerating(true);
     try {
       const articleContent = selectedArticleData?.content || "";
-      const { text, imagePrompt, imageUrl } = await generateContent(
+      const { text, title, imagePrompt, imageUrl } = await generateContent(
         articleUrl,
         platform,
         articleContent
       );
       setContent(text);
+      setGeneratedTitle(title);
       setImagePrompt(imagePrompt);
-      setGeneratedImage(imageUrl); // Use the actual generated image URL
+      setGeneratedImage(imageUrl);
+      setShowGeneratedContent(true);
     } catch (error) {
       toast("Failed to generate content. Please try again.", {
         style: { background: "red", color: "white" },
@@ -246,7 +251,8 @@ export default function ContentSwiper({
         urlName,
         content,
         platform as "linkedin" | "twitter",
-        generatedImage
+        generatedImage,
+        generatedTitle
       );
       onSaveContent(updatedLibrary);
       toast("The content has been added to your library.", {
@@ -265,10 +271,10 @@ export default function ContentSwiper({
     }
   };
 
-  // Add this function inside ContentSwiper component
   const handleCustomUrlSelect = async (url: string) => {
     setIsGenerating(true);
-    setIsArticleFetched(false); // Reset when starting new fetch
+    setIsArticleFetched(false);
+    setShowGeneratedContent(false);
     try {
       const response = await fetch("/api/scrape", {
         method: "POST",
@@ -285,7 +291,7 @@ export default function ContentSwiper({
       const article: Article = await response.json();
       setSelectedArticleData(article);
       setArticleUrl(article.url);
-      setIsArticleFetched(true); // Set to true after successful fetch
+      setIsArticleFetched(true);
     } catch (error) {
       toast("Failed to fetch article content. Please try again.", {
         style: { background: "red", color: "white" },
@@ -294,6 +300,11 @@ export default function ContentSwiper({
     } finally {
       setIsGenerating(false);
     }
+  };
+
+  const handlePlatformChange = (value: string) => {
+    setPlatform(value);
+    setShowGeneratedContent(false);
   };
 
   return (
@@ -346,40 +357,38 @@ export default function ContentSwiper({
             </div>
           )}
 
-          <Select value={platform} onValueChange={setPlatform}>
+          <Select value={platform} onValueChange={handlePlatformChange}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select platform" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="linkedin">LinkedIn</SelectItem>
-              <SelectItem value="twitter">Twitter</SelectItem>
+              <SelectItem value="twitter">X (formerly Twitter)</SelectItem>
             </SelectContent>
           </Select>
 
-          <Button
-            onClick={handleGenerate}
-            disabled={
-              isGenerating ||
-              (selectedArticle === "custom" && !isArticleFetched)
-            }
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white"
-          >
-            {isGenerating ? (
-              <>
-                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                Generating
-              </>
-            ) : (
-              <>
-                <Send className="mr-2 h-5 w-5" />
-                Generate Content
-              </>
-            )}
-          </Button>
+          {!isGenerating && isArticleFetched && (
+            <Button
+              onClick={handleGenerate}
+              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white"
+            >
+              <Send className="mr-2 h-5 w-5" />
+              Generate Content
+            </Button>
+          )}
+
+          {isGenerating && (
+            <Button disabled className="w-full">
+              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+              {selectedArticle === "custom" && !isArticleFetched
+                ? "Fetching Article"
+                : "Generating"}
+            </Button>
+          )}
         </CardContent>
       </Card>
 
-      {content && (
+      {showGeneratedContent && content && (
         <Card className="bg-white shadow-lg">
           <CardHeader>
             <CardTitle className="text-xl font-semibold text-gray-800">
@@ -408,6 +417,9 @@ export default function ContentSwiper({
                 </div>
               )}
               <div className="flex-1">
+                <h3 className="font-medium text-gray-900 mb-2">
+                  {generatedTitle}
+                </h3>
                 <p className="text-gray-700 leading-relaxed">{content}</p>
               </div>
             </div>
@@ -416,15 +428,25 @@ export default function ContentSwiper({
                 onClick={() => handleSwipe(false)}
                 variant="outline"
                 className="w-[48%]"
+                disabled={isGenerating}
               >
-                <ThumbsDown className="mr-2 h-5 w-5" />
+                {isGenerating ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <ThumbsDown className="mr-2 h-5 w-5" />
+                )}
                 Dislike
               </Button>
               <Button
                 onClick={() => handleSwipe(true)}
                 className="w-[48%] bg-green-600 hover:bg-green-700"
+                disabled={isGenerating}
               >
-                <ThumbsUp className="mr-2 h-5 w-5" />
+                {isGenerating ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <ThumbsUp className="mr-2 h-5 w-5" />
+                )}
                 Like
               </Button>
             </div>

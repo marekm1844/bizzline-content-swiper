@@ -32,8 +32,7 @@ export default function ContentLibraryComponent({
     }
     return (
       <Badge variant="secondary" className="flex items-center gap-1">
-        <Twitter className="w-3 h-3" />
-        Twitter
+        <Twitter className="w-3 h-3" />X
       </Badge>
     );
   };
@@ -70,6 +69,9 @@ export default function ContentLibraryComponent({
                                 {new Date(content.timestamp).toLocaleString()}
                               </p>
                             </div>
+                            <h3 className="font-medium text-gray-900">
+                              {content.title}
+                            </h3>
                             {content.image && (
                               <div className="relative w-full h-[200px] rounded-lg overflow-hidden">
                                 <Image

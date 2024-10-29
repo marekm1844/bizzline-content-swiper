@@ -2,7 +2,12 @@ export async function generateContent(
   articleUrl: string,
   platform: string,
   articleContent?: string
-): Promise<{ text: string; imagePrompt: string; imageUrl: string }> {
+): Promise<{
+  text: string;
+  imagePrompt: string;
+  imageUrl: string;
+  title: string;
+}> {
   try {
     const response = await fetch("/api/generate", {
       method: "POST",
@@ -22,7 +27,12 @@ export async function generateContent(
     }
 
     const data = await response.json();
-    return data;
+    return {
+      text: data.text,
+      imagePrompt: data.imagePrompt,
+      imageUrl: data.imageUrl,
+      title: data.title,
+    };
   } catch (error) {
     console.error("Error in generateContent:", error);
     throw error;

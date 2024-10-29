@@ -8,6 +8,33 @@ const openai = new OpenAI({
 
 export const runtime = "edge";
 
+// Separate prompts for LinkedIn and X
+const LINKEDIN_PROMPT = `You are a professional LinkedIn content creator specializing in business and professional content.
+Create an engaging post that:
+1. Has a compelling title (max 80 characters). Do not include hashtags in the title.
+2. Demonstrates thought leadership and industry expertise
+3. Encourages professional discussion and engagement
+4. Includes 1-2 relevant hashtags
+5. Maintains a professional tone
+6. Is between 400-600 characters
+
+Return the response in this format exactly:
+TITLE: [Your title here]
+CONTENT: [Your content here]`;
+
+const X_PROMPT = `You are a social media expert specializing in X (formerly Twitter) content.
+Create an engaging post that:
+1. Has a catchy, attention-grabbing title (max 50 characters)
+2. Is concise and impactful
+3. Uses appropriate emojis to enhance engagement
+4. Includes 1-2 relevant hashtags
+5. Stays within 280 characters total (including title)
+6. Creates urgency or curiosity
+
+Return the response in this format exactly:
+TITLE: [Your title here]
+CONTENT: [Your content here]`;
+
 async function searchUnsplashImage(query: string): Promise<string> {
   try {
     const response = await fetch(
@@ -43,37 +70,50 @@ export async function POST(request: NextRequest) {
   try {
     const { articleUrl, platform, articleContent } = await request.json();
 
-    // Prepare the system prompt based on platform
-    const systemPrompt =
-      platform === "linkedin"
-        ? "You are a professional social media content creator specializing in LinkedIn posts. Create engaging, professional content that encourages discussion and demonstrates thought leadership. Include relevant hashtags. Make it a short post, 4-5 sentences."
-        : "You are a social media content creator specializing in Twitter posts. Create concise, engaging content within 280 characters. Include relevant hashtags and emojis where appropriate.";
+    // Select the appropriate prompt based on platform
+    const systemPrompt = platform === "linkedin" ? LINKEDIN_PROMPT : X_PROMPT;
 
-    // Prepare the user prompt with the article content
-    const userPrompt = `Based on this article: "${articleContent}", create a ${platform} post that engages the audience and drives discussion. For LinkedIn, focus on professional insights and industry relevance. For Twitter, be concise and use appropriate emojis.`;
-
-    // Generate content using OpenAI
+    // Generate title and content together
     const completion = await openai.chat.completions.create({
       model: "gpt-4o",
       messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: userPrompt },
+        {
+          role: "system",
+          content: systemPrompt,
+        },
+        {
+          role: "user",
+          content: `Based on this article, create a ${platform} post: "${articleContent}"`,
+        },
       ],
       temperature: 0.7,
     });
 
-    // Generate image search keywords
+    const response = completion.choices[0].message.content || "";
+
+    // Parse the response using regular expressions
+    const titleMatch = response.match(/TITLE:\s*([^\n]+)/);
+    const contentMatch = response.match(/CONTENT:\s*([\s\S]+)$/);
+
+    const title = titleMatch
+      ? titleMatch[1].trim()
+      : `${platform === "linkedin" ? "LinkedIn" : "X"} Post`;
+    const content = contentMatch ? contentMatch[1].trim() : response;
+
+    // Generate image keywords with platform-specific guidance
     const imageKeywordsResponse = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: "gpt-4o",
       messages: [
         {
           role: "system",
           content:
-            "You are an expert at extracting relevant keywords for image search. Provide 2-3 most relevant keywords that would make a good image search query for the social media post. Return only the keywords, no explanation.",
+            platform === "linkedin"
+              ? "You are an expert at finding professional, business-oriented image keywords. Provide 2-3 keywords that would make a good professional image search query."
+              : "You are an expert at finding engaging, attention-grabbing image keywords. Provide 2-3 keywords that would make a good social media image search query.",
         },
         {
           role: "user",
-          content: `Create image search keywords for this ${platform} post: ${completion.choices[0].message.content}`,
+          content: `Create image search keywords for this ${platform} post: ${content}`,
         },
       ],
       temperature: 0.7,
@@ -86,7 +126,8 @@ export async function POST(request: NextRequest) {
     const imageUrl = await searchUnsplashImage(imageKeywords);
 
     return NextResponse.json({
-      text: completion.choices[0].message.content,
+      text: content,
+      title: title,
       imagePrompt: imageKeywords,
       imageUrl: imageUrl,
     });

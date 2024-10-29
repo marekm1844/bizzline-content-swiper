@@ -8,6 +8,7 @@ export interface Article {
 
 export interface SavedContent {
   text: string;
+  title: string;
   image?: string;
   timestamp: number;
   platform: "linkedin" | "twitter";

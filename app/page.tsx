@@ -5,7 +5,7 @@ import ContentSwiper from "@/components/ContentSwiper";
 import { Sidebar } from "@/components/Sidebar";
 import { ContentLibrary } from "@/lib/contentLibrary";
 import { Button } from "@/components/ui/button";
-import { Menu, Sparkles } from "lucide-react";
+import { Menu, Sparkles, ThumbsDown, ThumbsUp } from "lucide-react";
 
 export default function Home() {
   const [contentLibrary, setContentLibrary] = useState<ContentLibrary>({});
@@ -46,10 +46,32 @@ export default function Home() {
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">
               Welcome to Your Content Generator
             </h2>
-            <p className="text-gray-600">
+            <p className="text-gray-600 mb-4">
               Create, manage, and organize your marketing content with ease. Use
               the content swiper below to get started!
             </p>
+            <h3 className="text-xl font-semibold text-gray-700 mb-4">
+              How it works:
+            </h3>
+            <ol className="list-decimal list-inside space-y-3 text-gray-600">
+              <li>
+                Enter the URL for an article, blog post or social media post you
+                want to turn into marketing content.
+              </li>
+              <li>
+                If you don&apos;t have a URL in mind, select a sample link from
+                the drop-down menu below.
+              </li>
+              <li>
+                Select whether you want the post generated for LinkedIn or X.
+              </li>
+              <li>Click &quot;Generate&quot;</li>
+              <li>
+                Click <ThumbsUp className="inline h-4 w-4" /> and the content
+                will be saved to the left for you to use. Click{" "}
+                <ThumbsDown className="inline h-4 w-4" /> for a new post.
+              </li>
+            </ol>
           </div>
           <div className="bg-white rounded-lg shadow-lg p-6">
             <ContentSwiper

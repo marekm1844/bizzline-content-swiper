@@ -7,10 +7,12 @@ export function addToLibrary(
   url: string,
   content: string,
   platform: "linkedin" | "twitter",
-  image?: string
+  image?: string,
+  title?: string
 ): ContentLibrary {
   const newContent: SavedContent = {
     text: content,
+    title: title || `${platform === "linkedin" ? "LinkedIn" : "X"} Post`,
     image: image,
     timestamp: Date.now(),
     platform: platform,
