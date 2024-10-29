@@ -195,6 +195,8 @@ export default function ContentSwiper({
   const [isArticleFetched, setIsArticleFetched] = useState(false);
   const [generatedTitle, setGeneratedTitle] = useState<string>("");
   const [showGeneratedContent, setShowGeneratedContent] = useState(false);
+  const [imageAuthorUrl, setImageAuthorUrl] = useState<string>("");
+  const [imageAuthor, setImageAuthor] = useState<string>("");
 
   const handleArticleSelect = (value: string) => {
     setSelectedArticle(value);
@@ -224,15 +226,20 @@ export default function ContentSwiper({
     setIsGenerating(true);
     try {
       const articleContent = selectedArticleData?.content || "";
-      const { text, title, imagePrompt, imageUrl } = await generateContent(
-        articleUrl,
-        platform,
-        articleContent
-      );
+      const {
+        text,
+        title,
+        imagePrompt,
+        imageUrl,
+        imageAuthor,
+        imageAuthorUrl,
+      } = await generateContent(articleUrl, platform, articleContent);
       setContent(text);
       setGeneratedTitle(title);
       setImagePrompt(imagePrompt);
       setGeneratedImage(imageUrl);
+      setImageAuthor(imageAuthor);
+      setImageAuthorUrl(imageAuthorUrl);
       setShowGeneratedContent(true);
     } catch (error) {
       toast("Failed to generate content. Please try again.", {
@@ -252,7 +259,9 @@ export default function ContentSwiper({
         content,
         platform as "linkedin" | "twitter",
         generatedImage,
-        generatedTitle
+        generatedTitle,
+        imageAuthor,
+        imageAuthorUrl
       );
       onSaveContent(updatedLibrary);
       toast("The content has been added to your library.", {
@@ -398,22 +407,48 @@ export default function ContentSwiper({
           <CardContent className="space-y-4">
             <div className="flex gap-4">
               {generatedImage && (
-                <div className="relative w-[200px] h-[200px] rounded-lg overflow-hidden">
-                  <HoverCard>
-                    <HoverCardTrigger>
-                      <Image
-                        src={generatedImage}
-                        alt="Generated content image"
-                        fill
-                        className="object-cover"
-                      />
-                    </HoverCardTrigger>
-                    <HoverCardContent>
-                      <p className="text-sm text-gray-600">
-                        Image Prompt: {imagePrompt}
-                      </p>
-                    </HoverCardContent>
-                  </HoverCard>
+                <div className="space-y-1">
+                  <div className="relative w-[200px] h-[200px] rounded-lg overflow-hidden">
+                    <HoverCard>
+                      <HoverCardTrigger>
+                        <Image
+                          src={generatedImage}
+                          alt="Generated content image"
+                          fill
+                          className="object-cover"
+                        />
+                      </HoverCardTrigger>
+                      <HoverCardContent>
+                        <p className="text-sm text-gray-600">
+                          Image Prompt: {imagePrompt}
+                        </p>
+                      </HoverCardContent>
+                    </HoverCard>
+                  </div>
+                  <div className="text-xs text-gray-500 text-center max-w-[200px] space-y-0.5">
+                    <div>
+                      Photo by{" "}
+                      <a
+                        href={imageAuthorUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline hover:text-gray-700 break-words"
+                      >
+                        {imageAuthor}
+                      </a>
+                    </div>
+                    <div>
+                      on{" "}
+                      <a
+                        href="https://unsplash.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline hover:text-gray-700"
+                      >
+                        Unsplash
+                      </a>
+                    </div>
+                  </div>
                 </div>
               )}
               <div className="flex-1">

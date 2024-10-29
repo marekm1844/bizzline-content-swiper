@@ -6,6 +6,8 @@ export async function generateContent(
   text: string;
   imagePrompt: string;
   imageUrl: string;
+  imageAuthor: string;
+  imageAuthorUrl: string;
   title: string;
 }> {
   try {
@@ -31,6 +33,8 @@ export async function generateContent(
       text: data.text,
       imagePrompt: data.imagePrompt,
       imageUrl: data.imageUrl,
+      imageAuthor: data.imageAuthor,
+      imageAuthorUrl: data.imageAuthorUrl,
       title: data.title,
     };
   } catch (error) {

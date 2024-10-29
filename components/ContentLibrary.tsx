@@ -73,13 +73,39 @@ export default function ContentLibraryComponent({
                               {content.title}
                             </h3>
                             {content.image && (
-                              <div className="relative w-full h-[200px] rounded-lg overflow-hidden">
-                                <Image
-                                  src={content.image}
-                                  alt="Content image"
-                                  fill
-                                  className="object-cover"
-                                />
+                              <div className="space-y-1">
+                                <div className="relative w-full h-[200px] rounded-lg overflow-hidden">
+                                  <Image
+                                    src={content.image}
+                                    alt="Content image"
+                                    fill
+                                    className="object-cover"
+                                  />
+                                </div>
+                                <div className="text-xs text-gray-500 text-center space-y-0.5">
+                                  <div>
+                                    Photo by{" "}
+                                    <a
+                                      href={content.imageAuthorUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="underline hover:text-gray-700 break-words"
+                                    >
+                                      {content.imageAuthor}
+                                    </a>
+                                  </div>
+                                  <div>
+                                    on{" "}
+                                    <a
+                                      href="https://unsplash.com"
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="underline hover:text-gray-700"
+                                    >
+                                      Unsplash
+                                    </a>
+                                  </div>
+                                </div>
                               </div>
                             )}
                             <div>
